@@ -17,8 +17,8 @@ def get_data_from_user():
 	tickers.append(input("Enter 1st stock:"))
 	tickers.append(input("Enter 2nd stock:"))
 
-	# with open("tickers.pickle", "wb") as f:
-	# 	pickle.dump(tickers, f)
+	with open("tickers.pickle", "wb") as f:
+	 	pickle.dump(tickers, f)
 
 	# if reload_sp500:
 	# 	tickers = save_sp500_tickers()
@@ -32,8 +32,11 @@ def get_data_from_user():
 	x = input("From what year do you want the correlation:")
 	y = input("From what month do you want the correlation:")
 	z = input("From what day do you want the correlation:")
+	x = int(x)
+	y = int(y)
+	z = int(z)
 
-	start = dt.datetime(x,y,1)
+	start = dt.datetime(x,y,z)
 	end = dt.datetime(2022,6,17)
 
 	for ticker in tickers:
@@ -44,11 +47,11 @@ def get_data_from_user():
 		else:
 			print('Already have {}'.format(ticker))
 
-#get_data_from_user()
+get_data_from_user()
 
 def compile_data():
-	with open("sp500tickers.pickle", "rb") as f:
-		tickers = pickle.load(f)
+	with open("tickers.pickle", "rb") as f:
+	 	tickers = pickle.load(f)
 
 	main_df = pd.DataFrame()
 
@@ -66,13 +69,13 @@ def compile_data():
 
 		if count % 10 == 0:
 			print(count)
-	print(main_df.head())
-	main_df.to_csv('sp500_joined_closes.csv')
+	print(main_df.tail())
+	main_df.to_csv('tickers_joined_closes.csv')
 
-#compile_data()
+compile_data()
 
 def visualize_data():
-	df = pd.read_csv('sp500_joined_closes.csv')
+	df = pd.read_csv('tickers_joined_closes.csv')
 	df_corr = df.corr()
 	print(df_corr.head())
 
