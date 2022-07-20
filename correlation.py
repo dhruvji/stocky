@@ -13,9 +13,15 @@ style.use('ggplot')
 
 def get_data_from_user():
 
+	
 	tickers = []
-	tickers.append(input("Enter 1st stock:"))
-	tickers.append(input("Enter 2nd stock:"))
+	tempticker = input("Enter stock 1:")
+	x = 0
+	while len(tempticker) != 1:
+		tickers.append(tempticker) 
+		x += 1
+		tempticker = input("Enter stock " + str(x+1) + ": (enter a singular digit to exit)")
+	
 
 	with open("tickers.pickle", "wb") as f:
 	 	pickle.dump(tickers, f)
